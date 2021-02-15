@@ -17,7 +17,7 @@ function Todo({ todo, index, completeTodo, removeTodo,changeTodo }) {
       style={{ textDecoration: todo.isCompleted ? "line-through" : "",  textTransform: "uppercase" }}
     >
       {todo.text}
-
+       Count: <span ref={labelref}>{todo.text}</span>
       <div>
         <button onClick={() => completeTodo(index)}>Complete</button>
         <button onClick={() => removeTodo(index)}>x</button>
@@ -39,7 +39,7 @@ function TodoForm({ addTodo }) {
   };
 
   const input = {
-      color: "white",
+      color: "black",
       padding: "10px",
       margin:"10px",
       fontFamily: "Arial"
