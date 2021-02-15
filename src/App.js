@@ -2,7 +2,7 @@ import React, { useState,useRef } from "react";
 import "./App.css";
 import styles from './style.css';
 
-function Todo({ todo, index, completeTodo, removeTodo,changeTodo }) {
+function Todo({ todo, index, completeTodo, removeTodo }) {
   const labelref = useRef();
   const div = {
       color: "white",
@@ -13,16 +13,16 @@ function Todo({ todo, index, completeTodo, removeTodo,changeTodo }) {
     };
   return (
     <div style={div}>
-      <span ref={labelref} style={{textTransform :"Uppercase"}}>{todo.text}</span>
+   
     <div
-      className="todo" 
-      style={{ textDecoration: todo.isCompleted ? "line-through" : "" }}
+      className="todo" ref={labelref}
+      style={{ textDecoration: todo.isCompleted ? "line-through" : "",textTransform :"Uppercase" }}
     >
       {todo.text}
       <div>
 
         <button onClick={() => completeTodo(index)}>Complete</button>
-        <button onClick={() => changeTodo(index)}>Change UPPERCASE</button>
+
         <button onClick={() => removeTodo(index)}>x</button>
        
       </div>
@@ -34,9 +34,9 @@ function Todo({ todo, index, completeTodo, removeTodo,changeTodo }) {
   );
 }
 
-function TodoForm({ addTodo }) {
+function TodoForm({addTodo }) {
   const [value, setValue] = useState("");
-  const labelref = useRef();
+  const labelref = useRef(null);
   const handleSubmit = e => {
     e.preventDefault();
     if (!value) return;
@@ -46,10 +46,14 @@ function TodoForm({ addTodo }) {
     setValue("");
   };
 
- let search = (e) => {
-   
-     setValue("");
-  }
+const addText = e => {
+    e.preventDefault();
+    if (!value) return;
+    addTodo(labelref.current.value);
+     console.log('Keyword1: ' + labelref.current.value);
+     labelref.current.style.textTransform = "Uppercase";
+    setValue("");
+  };
   const input = {
       color: "black",
       padding: "10px",
@@ -69,7 +73,7 @@ function TodoForm({ addTodo }) {
         onChange={e => setValue(e.target.value)}
         placeholder="Input List..."
       />
-     
+             <button onClick={addText}>Add List</button>
    
     </form>
     </fieldset>
@@ -98,6 +102,12 @@ function App() {
     setTodos(newTodos);
   };
 
+const changeTodo = text => {
+    const newTodos = [...todos,{text:value,isCompleted:false}];
+    console.log(labelref.current.value);
+    setTodos(newTodos);
+  };
+
   const completeTodo = index => {
     const newTodos = [...todos];
    // console.log(...newTodos);
@@ -119,12 +129,7 @@ function App() {
     setTodos(newTodos);
   };
 
-  const changeTodo = index => {
-    //const newTodos = [...todos,{text:value}];
-    console.log(labelref.current.value);
-    setTodos(newTodos);
-  };
-
+  
   return (
     <div className="app">
       <div className="todo-list">
@@ -136,10 +141,10 @@ function App() {
             todo={todo}
             completeTodo={completeTodo}
             removeTodo={removeTodo}
-            changeTodo={changeTodo}
+            
           />
         ))}
-        <TodoForm addTodo={addTodo} />
+        <TodoForm addTodo={addTodo} changeTodo={changeTodo} />
       </div>
     </div>
   );
