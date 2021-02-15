@@ -16,7 +16,7 @@ function Todo({ todo, index, completeTodo, removeTodo }) {
    
     <div
       className="todo" ref={labelref}
-      style={{ textDecoration: todo.isCompleted ? "line-through" : "",textTransform :"Uppercase" }}
+      style={{ textDecoration: todo.isCompleted ? "line-through" : "",textTransform :"Lowercase" }}
     >
       {todo.text}
       <div>
@@ -42,16 +42,17 @@ function TodoForm({addTodo }) {
     if (!value) return;
     addTodo(value);
      console.log('Keyword: ' + labelref.current.value);
-     labelref.current.style.textTransform = "Uppercase";
+     labelref.current.style.textTransform = "Lowercase";
     setValue("");
   };
 
 const addText = e => {
     e.preventDefault();
     if (!value) return;
+       console.log('Keyword1: ' + labelref.current.value);
+     labelref.current.style.textTransform = "Lowercase";
     addTodo(labelref.current.value);
-     console.log('Keyword1: ' + labelref.current.value);
-     labelref.current.style.textTransform = "Uppercase";
+  
     setValue("");
   };
   const input = {
