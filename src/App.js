@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState,useRef } from "react";
 import "./App.css";
 import styles from './style.css';
 
-function Todo({ todo, index, completeTodo, removeTodo }) {
+function Todo({ todo, index, completeTodo, removeTodo,changeTodo }) {
   const div = {
       color: "white",
       backgroundColor: "lightcoral",
@@ -14,13 +14,14 @@ function Todo({ todo, index, completeTodo, removeTodo }) {
     <div style={div}>
     <div
       className="todo"
-      style={{ textDecoration: todo.isCompleted ? "line-through" : "" }}
+      style={{ textDecoration: todo.isCompleted ? "line-through" : "",  textTransform: "uppercase" }}
     >
       {todo.text}
 
       <div>
         <button onClick={() => completeTodo(index)}>Complete</button>
         <button onClick={() => removeTodo(index)}>x</button>
+        <button onClick={() => changeTodo(index)}>Change UPPERCASE</button>
       </div>
     </div>
     </div>
@@ -29,7 +30,7 @@ function Todo({ todo, index, completeTodo, removeTodo }) {
 
 function TodoForm({ addTodo }) {
   const [value, setValue] = useState("");
-
+  const labelref = useRef(null)
   const handleSubmit = e => {
     e.preventDefault();
     if (!value) return;
@@ -49,6 +50,7 @@ function TodoForm({ addTodo }) {
       <input style={input}
         type="text"
         className="input"
+        ref={labelref}
         value={value}
         onChange={e => setValue(e.target.value)}
       />
@@ -98,9 +100,16 @@ function App() {
     setTodos(newTodos);
   };
 
+  const changeTodo = index => {
+    const newTodos = [...todos,{text:{labelref}}];
+    console.log(...newTodos);
+    setTodos(newTodos);
+  };
+
   return (
     <div className="app">
       <div className="todo-list">
+      
         {todos.map((todo, index) => (
           <Todo
             key={index}
@@ -108,6 +117,7 @@ function App() {
             todo={todo}
             completeTodo={completeTodo}
             removeTodo={removeTodo}
+            changeTodo={changeTodo}
           />
         ))}
         <TodoForm addTodo={addTodo} />
