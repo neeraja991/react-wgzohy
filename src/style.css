@@ -1,0 +1,14 @@
+h1, p {
+  font-family: Lato;
+}
+
+.container{
+  width: 130px;
+  margin:30px 30px 40px 40px;
+   border: 1px solid #cecececb;
+   box-sizing: border-box;
+    outline: none;
+    cursor:pointer;
+    border-radius: 5px;
+    padding: 10px 15px;
+}
