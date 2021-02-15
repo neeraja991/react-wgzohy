@@ -3,6 +3,7 @@ import "./App.css";
 import styles from './style.css';
 
 function Todo({ todo, index, completeTodo, removeTodo,changeTodo }) {
+  const labelref = useRef();
   const div = {
       color: "white",
       backgroundColor: "lightcoral",
@@ -12,33 +13,43 @@ function Todo({ todo, index, completeTodo, removeTodo,changeTodo }) {
     };
   return (
     <div style={div}>
+      <span ref={labelref} style={{textTransform :"Uppercase"}}>{todo.text}</span>
     <div
-      className="todo"
-      style={{ textDecoration: todo.isCompleted ? "line-through" : "",  textTransform: "uppercase" }}
+      className="todo" 
+      style={{ textDecoration: todo.isCompleted ? "line-through" : "" }}
     >
       {todo.text}
-       Count: <span ref={labelref}>{todo.text}</span>
       <div>
+
         <button onClick={() => completeTodo(index)}>Complete</button>
-        <button onClick={() => removeTodo(index)}>x</button>
         <button onClick={() => changeTodo(index)}>Change UPPERCASE</button>
+        <button onClick={() => removeTodo(index)}>x</button>
+       
       </div>
     </div>
+    
     </div>
+
+    
   );
 }
 
 function TodoForm({ addTodo }) {
   const [value, setValue] = useState("");
-  const labelref = useRef(null)
+  const labelref = useRef();
   const handleSubmit = e => {
     e.preventDefault();
     if (!value) return;
     addTodo(value);
-    console.log(labelref.current.value);
+     console.log('Keyword: ' + labelref.current.value);
+     labelref.current.style.textTransform = "Uppercase";
     setValue("");
   };
 
+ let search = (e) => {
+   
+     setValue("");
+  }
   const input = {
       color: "black",
       padding: "10px",
@@ -47,6 +58,8 @@ function TodoForm({ addTodo }) {
     };
 
   return (
+    <fieldset>
+    <legend>Todo List Input</legend>
     <form onSubmit={handleSubmit}>
       <input style={input}
         type="text"
@@ -54,8 +67,12 @@ function TodoForm({ addTodo }) {
         ref={labelref}
         value={value}
         onChange={e => setValue(e.target.value)}
+        placeholder="Input List..."
       />
+     
+   
     </form>
+    </fieldset>
   );
 }
 
@@ -74,6 +91,7 @@ function App() {
       isCompleted: false
     }
   ]);
+  const labelref = useRef();
 
   const addTodo = text => {
     const newTodos = [...todos, { text,isCompleted:false }];
@@ -102,8 +120,8 @@ function App() {
   };
 
   const changeTodo = index => {
-    const newTodos = [...todos,{text:{labelref}}];
-    console.log(...newTodos);
+    //const newTodos = [...todos,{text:value}];
+    console.log(labelref.current.value);
     setTodos(newTodos);
   };
 
