@@ -35,6 +35,7 @@ function TodoForm({ addTodo }) {
     e.preventDefault();
     if (!value) return;
     addTodo(value);
+    console.log(labelref.current.value);
     setValue("");
   };
 
